@@ -11,7 +11,7 @@ const post = mongoose.model(
   new Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
-    author: { type: Schema.reference.id, required: true },
+    author: { type: Schema.Types.ObjectId, required: true },
   }, {
     timestamps: true
   })

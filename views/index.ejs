@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
-  <title>Chatting App</title>
+  <title>Blog Api || Home</title>
   <link rel="stylesheet" type="text/css" href="../css/meyers_reset.css" />
   <link rel="stylesheet" type="text/css" href="../css/index.css" />
   <% if (user) { %>
-    <script type="text/javascript" src="../js/index.js"></script>
+    <script type="text/javascript" src="../js/auth.js"></script>
   <% } %>
 </head>
 <body>
+  <header>
+    <h1>Blog API</h1>
+    <nav>
+      <ul>
+        <% if (user) { %>
+          <li><%= user.first_name %></li>
+          <li><button type="button" id="btn-sign-out">Sign Out</button></li>
+        <% } else { %>
+          <li><a href="/users/login">Sign In</a></li>
+          <li><a href="/users/signup">Sign Up</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>The Blog</h2>
+    <div class="container-posts">
+      <ul id="list-posts">
+        <% posts.forEach(post => { %>
+          <li>
+            <div>
+              <h2><%= post.title %></h2>
+              <div><%= post.createdAt %></div>
+            </div>
+            <div><%= post.content %></div>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <% if (admin) { %>
+      <a href='/posts/new'>New Post</a>
+    <% } %>
+  </main>
 </body>
 </html>

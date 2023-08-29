@@ -7,13 +7,25 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const Post = require('./models/post');
+const User = require('./models/user');
+const Comment = require('./models/comment');
+
+const mongoDb = process.env.uri;
+mongoose.connect(mongoDb, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'mongo connection error'));
 
 const app = express();
 app.set("views", path.join(__dirname, '/views'));
 app.use(express.static(__dirname));
 app.set("view engine", "ejs");
 
-app.use(session({ secrets: "cats", resave: false, saveUnintialized: true }));
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
@@ -82,10 +94,72 @@ app.post('/comments', async (req, res, next) => {
     return next(err);
   }
 });
+
+app.post('/users/new', async (req, res, next) => {
+  try {
+    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+      if (err) {
+        return next(err);
+      } else {
+        const user = new User({
+          username: req.body.username,
+          password: hashedPassword,
+          first_name: req.body.first_name,
+          family_name: req.body.family_name,
+          admin: false
+        });
+        await user.save();
+        res.redirect('/');
+      }
+    });
+  } catch(err) {
+    return next(err);
+  }
+});
+
+app.post('/users/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/'
+}));
+
+app.post('/users/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.send({ message: 'logout' });
+  });
+});
 // READ
+app.get('/', async (req, res) => {
+  const posts = await Post.find({}).then((data) => {
+    return data.map(post => {
+      return {
+        id: post._id.toString(),
+        title: post.title,
+        content: post.content,
+        createdAt: new Date(post.createdAt)
+      }
+    });
+  });
+  res.render('index', { user: res.locals.currentUser, admin: res.locals.currentUser ? res.locals.currentUser : false, posts });
+});
 
+app.get('/users/login', (req, res) => {
+  res.render('auth', { formType: 'login' });
+});
+
+app.get('/users/signup', (req, res) => {
+  res.render('auth', { formType: 'signup' });
+});
+
+app.get('/posts/new', (req, res) => {
+  res.render('post');
+});
 // UPDATE
+app.put('/posts/:postId', (req, res) => {
 
+});
 // DELETE
 
 app.listen(3000, () => {

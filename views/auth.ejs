@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog Api || Authentication</title>
+  <link rel="stylesheet" type="text/css" href="../css/meyers_reset.css" />
+  <link rel="stylesheet" type="text/css" href="../css/index.css" />
+</head>
+<body>
+  <header>
+    <h1>Blog API</h1>
+  </header>
+  <h2><%= formType === 'login' ? 'Log In' : 'Sign Up ' %></h2>
+  <form id="form-auth" action="<%= formType === 'login' ? '/users/login' : '/users/new' %>" method="POST">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" />
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" />
+    <% if (formType === 'signup') { %>
+      <label for="first_name">First Name</label>
+      <input type="text" id="first_name" name="first_name" placeholder="Justin" />
+      <label for="family_name">Last Name</label>
+      <input type="text" id="family_name" name="family_name" placeholder="Duong" />
+    <% } %>
+    <button type="submit" id="btn-post-submit"><%= formType === 'login' ? 'Log In' : 'Sign Up' %></button>
+  </form>
+</body>
+</html>
