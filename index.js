@@ -5,7 +5,11 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const multer = require('multer');
 require('dotenv').config();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const Post = require('./models/post');
 const User = require('./models/user');
 const Comment = require('./models/comment');
@@ -29,6 +33,12 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+
+function toBase64(arr) {
+  return btoa(
+    arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+  );
+}
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -68,12 +78,18 @@ app.use((req, res, next) => {
 });
 
 // CREATE
-app.post('/posts', async (req, res, next) => {
+app.post('/posts', upload.single('photo'), async (req, res, next) => {
+  console.log(req.file.buffer);
   try {
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      author: res.locals.currentUser.id
+      author: res.locals.currentUser.id,
+      image: {
+        file: req.file.buffer,
+        filename: req.file.originalname,
+        mimetype: req.file.mimetype
+      }
     });
     await post.save();
     res.redirect('/');
@@ -138,6 +154,11 @@ app.get('/', async (req, res) => {
         id: post._id.toString(),
         title: post.title,
         content: post.content,
+        image: {
+          file: post.image.file,
+          filename: post.image.filename,
+          mimetype: post.image.mimetype
+        },
         createdAt: new Date(post.createdAt)
       }
     });

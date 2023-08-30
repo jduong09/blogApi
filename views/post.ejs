@@ -9,11 +9,13 @@
   <header>
     <h1>Blog Api</h1>
   </header>
-  <form id="form-posts-new" action="/posts" method="POST">
-    <label type="text">Title</label>
+  <form id="form-posts-new" action="/posts" enctype="multipart/form-data" method="POST">
+    <label type="text" for="title">Title</label>
     <input type="text" id="title" name="title" placeholder="Insert Title Here..." />
-    <label type="text">Content</label>
+    <label type="text" for="content">Content</label>
     <input type="text" id="content" name="content" placeholder="Insert Content Here..." />
+    <label type="text" for="photo">Cover Photo</label>
+    <input type="file" id="photo" name="photo" />
     <button type="submit" id="btn-post-submit">Submit Post</button>
   </form>
 </body>

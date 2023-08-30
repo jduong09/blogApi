@@ -29,11 +29,14 @@
       <ul id="list-posts">
         <% posts.forEach(post => { %>
           <li>
+            <img src="data:<%= post.image.mimetype %>;base64,<%= post.image.file.toString('base64') %>" />
             <div>
-              <h2><%= post.title %></h2>
-              <div><%= post.createdAt %></div>
-            </div>
-            <div><%= post.content %></div>
+              <div>
+                <h2><%= post.title %></h2>
+                <div><%= post.createdAt %></div>
+              </div>
+              <div><%= post.content %></div>
+            </div>  
           </li>
         <% }); %>
       </ul>
