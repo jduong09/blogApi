@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-/*
- title: 'string',
- content: 'string'
- timestamp: '',
-*/
 const post = mongoose.model(
   "Post",
   new Schema({

@@ -4,6 +4,7 @@
   <title>Blog Api || Home</title>
   <link rel="stylesheet" type="text/css" href="../css/meyers_reset.css" />
   <link rel="stylesheet" type="text/css" href="../css/index.css" />
+  <link rel="stylesheet" type="text/css" href="../css/post.css" />
   <% if (user) { %>
     <script type="text/javascript" src="../js/auth.js"></script>
   <% } %>
@@ -25,26 +26,11 @@
     </nav>
   </header>
   <main>
-    <h2>The Blog</h2>
-    <div class="container-posts">
-      <ul id="list-posts">
-        <% posts.forEach(post => { %>
-          <li class="list-item-posts" data-post="<%= post.id %>">
-            <img src="data:<%= post.image.mimetype %>;base64,<%= post.image.file.toString('base64') %>" />
-            <div>
-              <div class="post-header">
-                <h2><%= post.title %></h2>
-                <div><%= post.createdAt %></div>
-              </div>
-              <div><%= post.content %></div>
-            </div>  
-          </li>
-        <% }); %>
-      </ul>
+    <h2><%= post.title %></h2>
+    <img id="post-img" src="data:<%= post.image.mimetype %>;base64,<%= post.image.file.toString('base64') %>" />
+    <div><%= post.content %></div>
+    <div id="post-comments">
     </div>
-    <% if (admin) { %>
-      <a href='/posts/new'>New Post</a>
-    <% } %>
   </main>
 </body>
 </html>

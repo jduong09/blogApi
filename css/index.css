@@ -47,10 +47,28 @@ main > h2 {
   grid-row: 1 / 2;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-#list-posts > li > img {
+#list-posts > li:first-child > img {
   display: block;
   width: auto;
   height: 250px;
+}
+
+#list-posts > li:first-child h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+#list-posts > li > img {
+  width: 100%;
+  height: auto;
+}
+
+#list-posts > li h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }

@@ -159,7 +159,7 @@ app.get('/', async (req, res) => {
           filename: post.image.filename,
           mimetype: post.image.mimetype
         },
-        createdAt: new Date(post.createdAt)
+        createdAt: new Date(post.createdAt).toISOString()
       }
     });
   });
@@ -176,6 +176,11 @@ app.get('/users/signup', (req, res) => {
 
 app.get('/posts/new', (req, res) => {
   res.render('post');
+});
+
+app.get('/posts/:postId', async (req, res, next) => {
+  const post = await Post.findById(req.params.postId);
+  res.render('detail', { post, user: res.locals.currentUser });
 });
 // UPDATE
 app.put('/posts/:postId', (req, res) => {
