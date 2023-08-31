@@ -42,6 +42,10 @@ main > h2 {
   gap: 1rem;
 }
 
+#list-posts > li {
+  border: 2px solid black;
+}
+
 #list-posts > li:first-child {
   grid-column: 1 / 4;
   grid-row: 1 / 2;
@@ -63,8 +67,12 @@ main > h2 {
 }
 
 #list-posts > li > img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 200px;
+}
+
+#list-posts > li > div {
+  padding: 2rem;
 }
 
 #list-posts > li h2 {

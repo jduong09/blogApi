@@ -30,7 +30,16 @@
     <img id="post-img" src="data:<%= post.image.mimetype %>;base64,<%= post.image.file.toString('base64') %>" />
     <div><%= post.content %></div>
     <div id="post-comments">
+      <ul id="list-comments">
+        <% comments.forEach(comment => { %>
+          <li class="list-item-comment">
+            <div><%= comment.content %></div>
+            <div><%= comment.author ? comment.author : 'Anonymous' %></div>
+          </li>
+        <% }); %>
+      </ul>
     </div>
+
   </main>
 </body>
 </html>

@@ -180,7 +180,8 @@ app.get('/posts/new', (req, res) => {
 
 app.get('/posts/:postId', async (req, res, next) => {
   const post = await Post.findById(req.params.postId);
-  res.render('detail', { post, user: res.locals.currentUser });
+  const comments = await Comment.find({ post: post.id });
+  res.render('detail', { post, user: res.locals.currentUser, comments });
 });
 // UPDATE
 app.put('/posts/:postId', (req, res) => {
