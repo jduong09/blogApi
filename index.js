@@ -79,7 +79,6 @@ app.use((req, res, next) => {
 
 // CREATE
 app.post('/posts', upload.single('photo'), async (req, res, next) => {
-  console.log(req.file.buffer);
   try {
     const post = new Post({
       title: req.body.title,
@@ -188,6 +187,7 @@ app.put('/posts/:postId', (req, res) => {
 
 });
 // DELETE
+
 
 app.listen(3000, () => {
   console.log('Blog API is listening on port 3000');
